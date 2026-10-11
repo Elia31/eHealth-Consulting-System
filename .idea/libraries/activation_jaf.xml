@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="activation-jaf">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/activation-jaf.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

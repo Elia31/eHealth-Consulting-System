@@ -1,0 +1,7 @@
+# Build-Ausgaben
+bin/
+out/
+
+# IDE
+.idea/
+*.iws
