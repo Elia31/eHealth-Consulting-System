@@ -83,7 +83,7 @@ public class DatabaseConnector
     public User getUser(int userID)
     {
         try {
-            String sql = "SELECT * FROM baliw43ry3s7plcfbs7z.user WHERE id = ?";
+            String sql = "SELECT * FROM user WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
@@ -119,7 +119,7 @@ public class DatabaseConnector
     public void addUser(User user)
     {
         try {
-            String sql = "INSERT INTO `baliw43ry3s7plcfbs7z`.`user` (`firstname`, `lastname`, `dateOfBirth`, `address`, " +
+            String sql = "INSERT INTO `user` (`firstname`, `lastname`, `dateOfBirth`, `address`, " +
                     "`plz`, `city`, `username`, `email`, `insuranceName`, `privateInsurance`, `password`, `salt`, `isAdmin`) " +
                     "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -155,7 +155,7 @@ public class DatabaseConnector
     public boolean isUsernameUnique(String username)
     {
         try {
-            String sql = "SELECT username FROM baliw43ry3s7plcfbs7z.user HAVING username=?";
+            String sql = "SELECT username FROM user HAVING username=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
@@ -177,7 +177,7 @@ public class DatabaseConnector
     public boolean isEmailUnique(String email)
     {
         try {
-            String sql = "SELECT email FROM baliw43ry3s7plcfbs7z.user HAVING email=?";
+            String sql = "SELECT email FROM user HAVING email=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
@@ -204,7 +204,7 @@ public class DatabaseConnector
         //if User uses Email to login
         if (isEmail) {
             try {
-                String sql = "SELECT salt, password FROM baliw43ry3s7plcfbs7z.user WHERE email=?";
+                String sql = "SELECT salt, password FROM user WHERE email=?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
@@ -231,7 +231,7 @@ public class DatabaseConnector
         //if User uses username to login
         else {
             try {
-                String sql = "SELECT salt, password FROM baliw43ry3s7plcfbs7z.user WHERE username=?";
+                String sql = "SELECT salt, password FROM user WHERE username=?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
@@ -266,7 +266,7 @@ public class DatabaseConnector
     public boolean isAdmin(int userID)
     {
         try {
-            String sql = "SELECT isAdmin FROM baliw43ry3s7plcfbs7z.user WHERE id = ?";
+            String sql = "SELECT isAdmin FROM user WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
@@ -292,7 +292,7 @@ public class DatabaseConnector
         //if User uses Email to login
         if (isEmail) {
             try {
-                String sql = "SELECT id FROM baliw43ry3s7plcfbs7z.user WHERE email=?";
+                String sql = "SELECT id FROM user WHERE email=?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
@@ -304,7 +304,7 @@ public class DatabaseConnector
             }
         } else {
             try {
-                String sql = "SELECT id FROM baliw43ry3s7plcfbs7z.user WHERE username=?";
+                String sql = "SELECT id FROM user WHERE username=?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
@@ -326,7 +326,7 @@ public class DatabaseConnector
     public void nullifyHealthInfo(int userID)
     {
         try {
-            String sql = "INSERT INTO baliw43ry3s7plcfbs7z.healthInformation (userID, medication, allergies, other, preIllness)" +
+            String sql = "INSERT INTO healthInformation (userID, medication, allergies, other, preIllness)" +
                     " VALUES (?,'/','/','/','/')";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userID);
@@ -345,7 +345,7 @@ public class DatabaseConnector
     public String[] getHealthInfo(int userID)
     {
         try {
-            String sql = "SELECT medication, allergies, other, preIllness FROM baliw43ry3s7plcfbs7z.healthInformation" +
+            String sql = "SELECT medication, allergies, other, preIllness FROM healthInformation" +
                     " WHERE userID=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
@@ -378,7 +378,7 @@ public class DatabaseConnector
         String preIllness = healthInfo[3];
 
         try {
-            String sql = "UPDATE baliw43ry3s7plcfbs7z.healthInformation SET " +
+            String sql = "UPDATE healthInformation SET " +
                     "medication = ?," +
                     "allergies = ?," +
                     "other = ?," +
@@ -405,7 +405,7 @@ public class DatabaseConnector
     public String getUserEmail(int userID)
     {
         try {
-            String sql = "SELECT email FROM baliw43ry3s7plcfbs7z.user" +
+            String sql = "SELECT email FROM user" +
                     " WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
@@ -428,7 +428,7 @@ public class DatabaseConnector
     public int getUserPlz(int userID)
     {
         try {
-            String sql = "SELECT plz FROM baliw43ry3s7plcfbs7z.user" +
+            String sql = "SELECT plz FROM user" +
                     " WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
@@ -451,7 +451,7 @@ public class DatabaseConnector
     public String getUserAddress(int userID)
     {
         try {
-            String sql = "SELECT address FROM baliw43ry3s7plcfbs7z.user" +
+            String sql = "SELECT address FROM user" +
                     " WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
@@ -474,7 +474,7 @@ public class DatabaseConnector
     {
         List<HealthProblem> healthProblems = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM baliw43ry3s7plcfbs7z.healthproblem";
+            String sql = "SELECT * FROM healthproblem";
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -500,7 +500,7 @@ public class DatabaseConnector
     {
         List<Doctor> doctors = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM baliw43ry3s7plcfbs7z.doctor WHERE specializationId=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM doctor WHERE specializationId=?");
             preparedStatement.setInt(1, sID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -525,7 +525,7 @@ public class DatabaseConnector
     {
         ArrayList<Doctor> doctors = new ArrayList<Doctor>();
         try {
-            String sql = "SELECT * FROM `baliw43ry3s7plcfbs7z`.`doctor`";
+            String sql = "SELECT * FROM `doctor`";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
@@ -557,7 +557,7 @@ public class DatabaseConnector
     public void makeAppointment(Appointment appointment)
     {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `baliw43ry3s7plcfbs7z`.`appointment` (`date`,`doctorID`,`userID`) VALUES ( ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `appointment` (`date`,`doctorID`,`userID`) VALUES ( ?, ?, ?)");
             preparedStatement.setTimestamp(1, appointment.getAppointmentDate());
             preparedStatement.setInt(2, appointment.getDoctorID());
             preparedStatement.setInt(3, appointment.getUserID());
@@ -576,7 +576,7 @@ public class DatabaseConnector
     public void cancelAppointment(int id)
     {
         try {
-            String sql = "DELETE FROM `baliw43ry3s7plcfbs7z`.`appointment` WHERE id=?";
+            String sql = "DELETE FROM `appointment` WHERE id=?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -595,7 +595,7 @@ public class DatabaseConnector
     public void shiftAppointment(int id, java.sql.Timestamp timestamp)
     {
         try {
-            String sql = "UPDATE baliw43ry3s7plcfbs7z.appointment SET date = ? WHERE id = ?";
+            String sql = "UPDATE appointment SET date = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setTimestamp(1, timestamp);
             preparedStatement.setInt(2, id);
@@ -615,7 +615,7 @@ public class DatabaseConnector
     {
         List<Appointment> appointments = new ArrayList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `baliw43ry3s7plcfbs7z`.`appointment` WHERE userID=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM `appointment` WHERE userID=?");
             preparedStatement.setInt(1, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -640,14 +640,14 @@ public class DatabaseConnector
     public ResultSet getDoctorForAppointment(int appointmentID)
     {
         try {
-            String sql = "SELECT doctorID FROM baliw43ry3s7plcfbs7z.appointment WHERE id = ?";
+            String sql = "SELECT doctorID FROM appointment WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, appointmentID);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.first();
             int doctorID = resultSet.getInt("doctorID");
 
-            sql = "SELECT * FROM baliw43ry3s7plcfbs7z.doctor WHERE id = ?";
+            sql = "SELECT * FROM doctor WHERE id = ?";
             preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, doctorID);
             return preparedStatement.executeQuery();
@@ -666,7 +666,7 @@ public class DatabaseConnector
     public String getDoctorType(int specializationId)
     {
         try {
-            String sql = "SELECT doctorType FROM baliw43ry3s7plcfbs7z.healthproblem WHERE specialization = ?";
+            String sql = "SELECT doctorType FROM healthproblem WHERE specialization = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, specializationId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -687,7 +687,7 @@ public class DatabaseConnector
     public ResultSet getResultSetAllUsers()
     {
         try {
-            String sql = "SELECT * FROM baliw43ry3s7plcfbs7z.user";
+            String sql = "SELECT * FROM user";
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             return statement.executeQuery(sql);
         } catch (Exception e) {
@@ -705,7 +705,7 @@ public class DatabaseConnector
     public ResultSet getResultSetUser(int userID)
     {
         try {
-            String sql = "SELECT * FROM baliw43ry3s7plcfbs7z.user WHERE id = ?";
+            String sql = "SELECT * FROM user WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, userID);
             return preparedStatement.executeQuery();
@@ -733,7 +733,7 @@ public class DatabaseConnector
                               String address, String city, String insuranceName, int privateInsurance, String password)
     {
         try {
-            String sql = "UPDATE baliw43ry3s7plcfbs7z.user SET " +
+            String sql = "UPDATE user SET " +
                     "firstname = ?, lastname = ?, dateOfBirth = ?, plz = ?, address = ?, city = ?, " +
                     "insuranceName = ?, privateInsurance = ?" +
                     (password != null ? ", password = ?" : "") +
@@ -780,7 +780,7 @@ public class DatabaseConnector
                                   String password, boolean isAdmin, boolean privateInsurance)
     {
         try {
-            String sql = "UPDATE baliw43ry3s7plcfbs7z.user SET firstName=?, lastName=?, dateOfBirth=?, address=?, plz=?, city=?, " +
+            String sql = "UPDATE user SET firstName=?, lastName=?, dateOfBirth=?, address=?, plz=?, city=?, " +
                     "username=?, email=?, insuranceName=?, password=?, isAdmin=?, privateInsurance=? WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, firstName);
@@ -810,7 +810,7 @@ public class DatabaseConnector
     public void deleteUser(int userID)
     {
         try {
-            String sql = "DELETE FROM baliw43ry3s7plcfbs7z.user WHERE id=?";
+            String sql = "DELETE FROM user WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userID);
             preparedStatement.executeUpdate();
